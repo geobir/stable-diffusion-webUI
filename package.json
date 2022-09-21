@@ -2,6 +2,7 @@
   "name": "stable-diffusion-webui-react",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://amotile.github.io/stable-diffusion-workshop/",
   "dependencies": {
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
