@@ -1,5 +1,5 @@
 import {Box, Button, Flex,  IconButton, Text} from "@chakra-ui/react";
-import {updateTheStore, useTheStore} from "@features/app/mainStore";
+import {defaultState, updateTheStore, useTheStore} from "@features/app/mainStore";
 import {MultiEditor, ValueEditorProps} from "./MultiEditor";
 import {setupAccessor} from './Accessor'
 import {FullPrompt, isX2Img, Size, X2ImgSettings} from "@features/app/genSettings";
@@ -14,6 +14,9 @@ import {NumberTools} from "@features/settingsEditor/NumberTools";
 import {FaEraser} from "react-icons/fa";
 import {HistoryItem} from "@features/app/appState";
 import {SizeEditor} from "@features/settingsEditor/SizeEditor";
+import {deepEqual} from "assert";
+import _ from "lodash";
+import shallow from "zustand/shallow";
 
 
 export const itemAccessor = setupAccessor((item: HistoryItem) => item)
@@ -65,8 +68,15 @@ const denoiseAccessor = settingsAccessor.access(
 
 type VEP<T> = ValueEditorProps<T>
 
+function stringToNumbers(s:string){
+    return s.split(',').map(s => Number(s))
+}
+
 export default function SettingsEditor() {
     const ids = useTheStore(s => s.nextItems.ordered)
+    const cfgScales = useTheStore(s => stringToNumbers(s.genSettings.cfgScales), shallow)
+    const steps = useTheStore(s => stringToNumbers(s.genSettings.steps), shallow)
+    const denoises = useTheStore(s => stringToNumbers(s.genSettings.denoises), shallow)
     const typeCounts = useTheStore(s => {
         let txt = 0
         let img = 0
@@ -125,20 +135,20 @@ export default function SettingsEditor() {
                              valueEditor={(vProps: VEP<number>) => <NumberEditor min={1} max={15}
                                                                                  step={0.5} {...vProps}/>}
                              tools={(vProps: VEP<number>) => <NumberTools field={"cfg"}
-                                                                          options={[1, 3, 6, 7, 8, 10, 12, 15]} {...vProps}/>}
+                                                                          options={cfgScales} {...vProps}/>}
                 />
                 <MultiEditor label={"Steps"} ids={ids}
                              accessor={stepsAccessor}
                              valueEditor={(vProps: VEP<number>) => <NumberEditor  {...vProps}/>}
                              tools={(vProps: VEP<number>) => <NumberTools field={"steps"}
-                                                                          options={[15, 30, 50, 75, 100]} {...vProps}/>}
+                                                                          options={steps} {...vProps}/>}
                 />
                 <MultiEditor label={"Denoise"} ids={ids}
                              accessor={denoiseAccessor}
                              valueEditor={(vProps: VEP<number>) => <NumberEditor min={0} max={1}
                                                                                  step={0.05} {...vProps}/>}
                              tools={(vProps: VEP<number>) => <NumberTools field={"denoise"}
-                                                                          options={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]} {...vProps}/>}
+                                                                          options={denoises} {...vProps}/>}
 
                 />
 

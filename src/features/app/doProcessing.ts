@@ -1,11 +1,12 @@
 import {updateTheStore, useTheStore} from "@features/app/mainStore";
-import {isX2Img} from "@features/app/genSettings";
+import {isX2Img, X2ImgSettings} from "@features/app/genSettings";
 import {BackendFunction, ProcessingRequest, randomSeed} from "@features/processing";
 import {samplers} from "@features/settingsEditor/SamplerEditor";
 import {automatic1111Config, sendToAutomatic1111} from "@features/processing/backend_automatic1111";
 // import {sendToSdWebui} from "@features/processing/backend_sd-webui";
 import {HistoryItem} from "@features/app/appState";
 import {setupStoredProcessing} from "@features/images";
+import {Randomness} from "@features/app-settings/state";
 
 const getCurrentConfig = (backend: string) => () => useTheStore.getState().backendConfigs[backend] || {}
 
@@ -63,18 +64,27 @@ export function clearFailed() {
     })
 }
 
+function evalRandomness(random: Randomness){
+    const steps = (random.to - random.from) / random.jump
+    return random.from + Math.round(Math.random() *steps) *random.jump
+}
+
 export const enqueueRandom = async () => {
-    const rng = {
-        cfg: true,
-        sampler: true,
-        steps: false,
-    }
+    let random = useTheStore.getState().genSettings.random;
+
     const adjustment: any = {}
-    if (rng.cfg) {
-        adjustment.cfg = Math.round((Math.random() * 14 + 1) * 10) / 10
+    if (random.cfg.enabled) {
+        adjustment.cfg = Number(evalRandomness(random.cfg).toFixed(2))
     }
-    if (rng.sampler) {
-        adjustment.sampler = samplers[Math.floor(Math.random() * samplers.length)]
+    if (random.steps.enabled) {
+        adjustment.steps = Math.round(evalRandomness(random.steps))
+    }
+    if (random.denoise.enabled) {
+        adjustment.denoise = Number(evalRandomness(random.denoise).toFixed(2))
+    }
+    if (random.samplers.enabled) {
+        const options = random.samplers.options
+        adjustment.sampler = options[Math.floor(Math.random() * options.length)]
     }
     return await enqueue(true, adjustment)
 }
@@ -94,8 +104,12 @@ export const enqueue = async (newSeed?: boolean, adjustment?: any) => {
 
                 item.seed = (newSeed ? undefined : item.seed) || randomSeed()
                 item.isNew = false
+                if(!item.image){
+                    item.denoise = (current as X2ImgSettings).denoise
+                }
 
             }
+
 
             s.historyItems[newId] = item
             s.history.push(newId)

@@ -1,5 +1,5 @@
 {
-  "name": "stable-diffusion-webui-react",
+  "name": "stable-diffusion-workshop",
   "version": "1.0.0",
   "private": true,
   "homepage": "https://amotile.github.io/stable-diffusion-workshop/",
@@ -17,6 +17,7 @@
     "@types/react-dropzone": "^5.1.0",
     "autoresize": "^0.1.1",
     "autosize": "^5.0.1",
+    "chakra-react-select": "^4.2.2",
     "craco": "^0.0.3",
     "framer-motion": "^7.3.5",
     "idb-keyval": "^6.2.0",

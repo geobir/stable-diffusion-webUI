@@ -12,6 +12,7 @@ import {StoredImage} from "@features/images/imageStorage";
 export function SelectedView() {
     const [offset, set_offset] = useState(0)
     const useOutput = useTheStore(s => s.useOutput);
+    const imagePaneSettings = useTheStore(s => s.imagePane);
     const selectedCount = useTheStore(s => s.nextItems.ordered.length);
     const realOffset = offset % selectedCount
 
@@ -65,7 +66,7 @@ export function SelectedView() {
         })
     }
 
-    return <Flex alignItems={"center"} justifyContent={"center"} position={"relative"} m={2} w={512} h={512}
+    return <Flex alignItems={"center"} justifyContent={"center"} position={"relative"} m={2} w={imagePaneSettings.size.width} h={imagePaneSettings.size.height}
                  bg={"rgb(255,255,255,0.05)"} onWheel={(e) => {
         const change = e.deltaY > 0 ? -1 : 1
         adjust(change)
