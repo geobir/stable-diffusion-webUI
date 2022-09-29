@@ -1,3 +1,4 @@
+import React from 'react';
 import {ValueEditorProps} from "@features/settingsEditor/MultiEditor";
 import {Select} from "@chakra-ui/react";
 

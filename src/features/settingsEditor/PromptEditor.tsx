@@ -1,3 +1,4 @@
+import React from 'react';
 import {ValueEditorProps} from "@features/settingsEditor/MultiEditor";
 import {Box, Textarea} from "@chakra-ui/react";
 import {FullPrompt} from "@features/app/genSettings";

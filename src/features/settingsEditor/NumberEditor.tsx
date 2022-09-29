@@ -1,3 +1,4 @@
+import React from 'react';
 import {ValueEditorProps} from "./MultiEditor";
 import {
     NumberDecrementStepper,

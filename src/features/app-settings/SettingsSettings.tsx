@@ -1,3 +1,4 @@
+import React from 'react';
 import {Box, Button, Heading, Input, Switch} from "@chakra-ui/react";
 import {defaultState, updateTheStore, useTheStore} from "@features/app/mainStore";
 import {SamplersPicker} from "@features/app/SamplersPicker";

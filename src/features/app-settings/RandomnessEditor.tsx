@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Box, Flex, Heading, NumberDecrementStepper, NumberIncrementStepper,
     NumberInput, NumberInputField, NumberInputStepper,

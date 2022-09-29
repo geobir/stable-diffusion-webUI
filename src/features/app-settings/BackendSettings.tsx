@@ -1,3 +1,4 @@
+import React from 'react';
 import {Box, Divider, Heading, Input, Link, Select} from "@chakra-ui/react";
 import {updateTheStore, useTheStore} from "@features/app/mainStore";
 import {automatic1111Config} from "@features/processing/backend_automatic1111";

@@ -1,3 +1,4 @@
+import React from 'react';
 import {CSSProperties, useEffect, useState} from "react";
 import {get, set} from 'idb-keyval';
 

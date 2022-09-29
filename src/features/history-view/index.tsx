@@ -1,3 +1,4 @@
+import React from 'react';
 import {Box, CircularProgress, Flex, Tooltip} from "@chakra-ui/react";
 import {useTheStore} from "@features/app/mainStore";
 import shallow from "zustand/shallow";

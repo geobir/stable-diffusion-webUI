@@ -1,3 +1,4 @@
+import React from 'react';
 import {useDropzone} from 'react-dropzone';
 import {updateTheStore} from "@features/app/mainStore";
 import {x2imgDefaultSettings, X2ImgSettings} from "@features/app/genSettings";

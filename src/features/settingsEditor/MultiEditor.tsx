@@ -1,3 +1,4 @@
+import React from 'react';
 import {updateTheStore, useTheStore} from "@features/app/mainStore";
 import shallow from "zustand/shallow";
 import {Accessor} from "./Accessor";

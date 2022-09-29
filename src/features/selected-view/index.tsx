@@ -1,3 +1,4 @@
+import React from 'react';
 import {Box, CircularProgress, Flex, Icon, Switch, Tooltip} from "@chakra-ui/react";
 import {updateTheStore, useTheStore} from "@features/app/mainStore";
 import {JSONTree} from "react-json-tree";
