@@ -56,18 +56,21 @@ export default memo(function App() {
     }
 
     return (
-        <Flex direction={"column"} style={{ height: '100vh', maxWidth:'1900px', margin:'0 auto' }} >
+        <Flex direction={"column"} style={{ position:'relative', height: '100vh', maxWidth:'1900px', margin:'0 auto', padding:'0 !important' }} >
             <Tabs>
-                <TabList>
-                    <Tab>Text 2 Image</Tab>
-                    <Tab>Image 2 Image</Tab>
-                    <Tab>Gallery</Tab>
-                    <Tab>Image Lab</Tab>
+                <TabList position={"fixed"} backgroundColor={"contentBGColor"} zIndex={9999} width={"100%"} maxWidth={'1900px'}>
+                    <Tab>🧱 Text 2 Image</Tab>
+                    <Tab>📤 Image 2 Image</Tab>
+                    <Tab>🖼️ Gallery</Tab>
+                    <Tab>🧪 Image Lab</Tab>
                 </TabList>
-
                 <TabPanels>
                     <TabPanel>
-                        {topArea}
+                        <Box position={'fixed'} backgroundColor={"contentBGColor"} zIndex={8888} width={"100%"} maxWidth={'1870px'} margin={0}>
+                            <Box height={"40px"}></Box>
+                            {topArea}
+                        </Box>
+                        <Box height={"600px"}></Box>
                         <Box minHeight={270} flex={1} overflow={"auto"}>
                             <HistoryView/>
                         </Box>

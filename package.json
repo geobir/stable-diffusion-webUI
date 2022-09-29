@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://amotile.github.io/stable-diffusion-workshop/",
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.10",
     "@chakra-ui/react": "^2.3.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",

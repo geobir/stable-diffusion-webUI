@@ -47,22 +47,25 @@ function HistoryItemView({ id, size, alwaysShowInfo }: { id: string, size: numbe
     if(size>256)
      imageSize = "full"
 
-    return <Flex style={{width: size+'px', height: size+'px'}} justifyContent={"center"} alignItems={"center"} position={"relative"} cursor={"pointer"}
-                 overflow={"hidden"} borderRadius={isSelected ? 0 : 6}
-                 borderColor={isSelected ? "selectionborder" : "rgb(0,0,0,0.1)"} borderWidth={1} m={1}
-                  bg={"itembg"}
-                 onClick={selectThisItem}
-                 onMouseOver={hoverThisItem}
-    >
-        {status === "complete" && <StoredImage id={id} size={imageSize}/>}
-        {status === "pending" && <FaHourglass/>}
-        {status === "processing" && <CircularProgress isIndeterminate/>}
-        {status === "failed" && <Tooltip label={error} hasArrow><Box><FaExclamationTriangle/></Box></Tooltip>}
-        {details}
-        {/*<Box position={"absolute"} top={0} right={0}>1.11</Box>*/}
-        {/*<Box position={"absolute"} top={0}>1.11</Box>*/}
-        {/*<Box position={"absolute"} top={0}>1.11</Box>*/}
-    </Flex>
+    return (
+        <Flex
+            style={{width: size+'px', height: size+'px'}} justifyContent={"center"} alignItems={"center"} position={"relative"} cursor={"pointer"}
+            overflow={"hidden"} borderRadius={6}
+            borderColor={isSelected ? "selectionborder" : "rgb(0,0,0,0.1)"} borderWidth={2} m={1}
+            bg={"itembg"}
+            onClick={selectThisItem}
+            onMouseOver={hoverThisItem}
+        >
+            {status === "complete" && <StoredImage id={id} size={imageSize}/>}
+            {status === "pending" && <FaHourglass/>}
+            {status === "processing" && <CircularProgress isIndeterminate/>}
+            {status === "failed" && <Tooltip label={error} hasArrow><Box><FaExclamationTriangle/></Box></Tooltip>}
+            {details}
+            {/*<Box position={"absolute"} top={0} right={0}>1.11</Box>*/}
+            {/*<Box position={"absolute"} top={0}>1.11</Box>*/}
+            {/*<Box position={"absolute"} top={0}>1.11</Box>*/}
+        </Flex>
+    );
 }
 
 
@@ -72,7 +75,7 @@ export function HistoryView() {
     const size = useTheStore(s => s.historyItemSize || 256)
     const alwaysShowInfo = useTheStore(s => s.historyItem_alwaysShowInfo)
 
-    return <Flex flexWrap={"wrap"} userSelect={"none"}>
+    return <Flex flexWrap={"wrap"} userSelect={"none"} justifyContent={"center"}>
         {history.map(id => <HistoryItemView key={id} id={id} size={size} alwaysShowInfo={alwaysShowInfo}/>)}
     </Flex>
 }
