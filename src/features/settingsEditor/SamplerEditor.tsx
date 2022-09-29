@@ -1,9 +1,7 @@
 import {ValueEditorProps} from "@features/settingsEditor/MultiEditor";
 import {Select} from "@chakra-ui/react";
 
-interface Props extends ValueEditorProps<string> {
-
-}
+type Props = ValueEditorProps<string>
 
 export const samplers = ["DDIM", "PLMS", "k_dpm_2_a", "k_dpm_2", "k_euler_a", "k_euler", "k_heun", "k_lms"]
 

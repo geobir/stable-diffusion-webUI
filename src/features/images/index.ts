@@ -13,11 +13,11 @@ export function setupStoredProcessing(backend : BackendFunction, configProvider:
     const queue: ProcessingQueue = {
         async itemChanged(change: BackendChange) {
             if (change.result) {
-                await storeImageData(currentId!!, change.result)
+                await storeImageData(currentId!, change.result)
             }
 
             updateTheStore(s => {
-                let image = s.images[currentId!!];
+                const image = s.images[currentId!];
                 if (change.error ||image.status ==='failed'){
                     image.status = 'failed'
                     image.error = change.error || 'Unknown error'

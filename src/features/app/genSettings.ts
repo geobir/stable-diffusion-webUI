@@ -20,22 +20,22 @@ export interface Size {
 
 
 export interface X2ImgSettings extends HistoryItem {
-    type: 'x2img'
-    prompt: FullPrompt
-    seed: string
-    image: string // Image Id
-    denoise: number
-    tiling: boolean
-    size: Size
-    cfg: number
-    sampler: string
-    steps: number
+    type: 'x2img',
+    prompt: FullPrompt,
+    seed: string,
+    image: string, // Image Id
+    denoise: number,
+    tiling: boolean,
+    size: Size,
+    cfg: number,
+    sampler: string,
+    steps: number,
     isNew:boolean
     // img2img
 }
 
 export function isX2Img(object: any): object is X2ImgSettings {
-    return object?.type === 'x2img'
+    return object?.type === 'x2img';
 }
 
 
@@ -51,7 +51,7 @@ export const x2imgDefaultSettings: X2ImgSettings = {
     tiling: false,
     image: "", // imageId
     denoise: 0.75,
-    isNew: true,
+    isNew: true
 }
 
 export function prompt2string(prompt: FullPrompt) {
@@ -60,18 +60,17 @@ export function prompt2string(prompt: FullPrompt) {
     }
 
     // noinspection JSUnusedLocalSymbols
-    const a = prompt.alpha // used by eval
+    const a = prompt.alpha; // used by eval
     return prompt.parts.map(part => {
-        const w = eval(part.weightFunction) || 1
+        const w = eval(part.weightFunction) || 1;
         return `${part.text}:${w}`;
-    }).join("\n")
+    }).join("\n");
 }
 
 setTimeout(() => {
     // settingsFixes['x2img'] = ensureSeed
     toRequest['x2img'] = async (item) => {
-        const s = item as X2ImgSettings
-
+        const s = item as X2ImgSettings;
         if (s.image) {
             const request: Img2ImgRequest = {
                 type: 'img2img',
@@ -97,9 +96,9 @@ setTimeout(() => {
                 height: s.size.height,
                 steps: s.steps,
                 sampler: s.sampler,
-                tiling: s.tiling,
+                tiling: s.tiling
             }
-            return request
+            return request;
         }
-    }
-}, 1)
+    };
+}, 1);

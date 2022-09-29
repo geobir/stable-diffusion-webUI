@@ -74,7 +74,7 @@ export function BackendSettings(){
               placeholder={c.fallback}
               value={currentSettings[c.key] || ''}
               onChange={(e) => updateTheStore(s => {
-                  s.backendConfigs[s.backend!!] = {
+                  s.backendConfigs[s.backend!] = {
                       ...currentSettings,
                       [c.key]: e.target.value
                   }

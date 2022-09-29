@@ -17,7 +17,7 @@ async function simRequest(listener: BackendListener, result: string) {
 }
 
 async function toBackend(url:string|undefined, data: any): Promise<any> {
-    let response = await fetch(url||fallbackUrl, {
+    const response = await fetch(url||fallbackUrl, {
         method: 'POST',
         mode: "cors",
         headers: {

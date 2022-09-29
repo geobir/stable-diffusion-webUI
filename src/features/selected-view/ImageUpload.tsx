@@ -11,7 +11,7 @@ async function readToBase64(file: File): Promise<string> {
         fr.addEventListener("load", function (e) {
             if (!e.target)
                 reject("No target!")
-            resolve(e.target!!.result as string)
+            resolve(e.target!.result as string)
         });
         fr.readAsDataURL(file);
     })
@@ -37,7 +37,7 @@ export function ImageUpload({selectedId}: { selectedId: string }) {
             }))
 
             updateTheStore(s => {
-                let base = s.nextItems.byId[selectedId]
+                const base = s.nextItems.byId[selectedId]
                 for (let i = 0; i < images.length; i++) {
                     const image = images[i];
                     s.images[image.id] = {

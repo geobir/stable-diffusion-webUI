@@ -7,10 +7,10 @@ import {FaExclamationTriangle, FaHourglass, FaPause} from "react-icons/fa";
 import {StoredImage} from "@features/images/imageStorage";
 
 function HistoryItemView({ id, size, alwaysShowInfo }: { id: string, size: number, alwaysShowInfo:boolean }) {
-    let status = useTheStore(s => s.images[id]?.status||'pending');
-    let error = useTheStore(s => s.images[id]?.error);
-    let item = useTheStore(s => s.historyItems[id]);
-    let isSelected = useTheStore(s => !!s.nextItems.byId[id]);
+    const status = useTheStore(s => s.images[id]?.status||'pending');
+    const error = useTheStore(s => s.images[id]?.error);
+    const item = useTheStore(s => s.historyItems[id]);
+    const isSelected = useTheStore(s => !!s.nextItems.byId[id]);
 
     function selectThisItem(e: React.MouseEvent) {
         selectItem(id, e.shiftKey, e.ctrlKey || e.metaKey)

@@ -5,9 +5,7 @@ import _ from "lodash";
 import autosize from "autosize";
 import {useEffect, useRef} from "react";
 
-interface Props extends ValueEditorProps<FullPrompt> {
-
-}
+type Props = ValueEditorProps<FullPrompt>
 
 export function PromptEditor({ value, set_value}: Props) {
     const ref = useRef<any>();

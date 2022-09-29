@@ -26,7 +26,7 @@ export const useTheStore = create<FullState>()(
                         const s2 = _.merge(current, s) as FullState
 
                         for (const id of s2.history) {
-                            let status = s2.images[id]?.status;
+                            const status = s2.images[id]?.status;
                             if(status !='complete' &&  status !='failed'){
                                 delete s2.images[id]
                             }

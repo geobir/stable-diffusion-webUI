@@ -1,9 +1,7 @@
 import {Input} from "@chakra-ui/react";
 import {ValueEditorProps} from "@features/settingsEditor/MultiEditor";
 
-interface Props extends ValueEditorProps<string> {
-
-}
+type Props = ValueEditorProps<string>
 
 export function SeedEditor({ value, set_value}: Props) {
 

@@ -12,18 +12,19 @@ export interface ValueEditorProps<T> {
 }
 
 interface Props<T> {
-    label: string
-    ids: string[]
-    accessor: Accessor<HistoryItem, T>
-    valueEditor: (props: ValueEditorProps<T>) => any
-    tools?: (props: ValueEditorProps<T>) => any
+    label: string,
+    ids: string[],
+    accessor: Accessor<HistoryItem, T>,
+    valueEditor: (props: ValueEditorProps<T>) => any,
+    tools?: (props: ValueEditorProps<T>) => any,
+    style?: object
 }
 
-export function MultiEditor<T>({label, ids, accessor, valueEditor, tools}: Props<T>) {
+export function MultiEditor<T>({label, ids, accessor, valueEditor, tools, style={}}: Props<T>) {
     const values = useTheStore(s => ids.map(id => accessor.get(s.nextItems.byId[id])), shallow)
     const [allSame, value] = sameCheck(values)
     if (value === undefined)
-        return <></>
+        return (<></>);
 
     function set_value(newV: T) {
         updateTheStore(s => {
@@ -33,15 +34,17 @@ export function MultiEditor<T>({label, ids, accessor, valueEditor, tools}: Props
         })
     }
 
-    let childParams = {value, set_value};
-    return <Box>
-        {label && <Box>{label}</Box>}
-        <Flex>
-            {!allSame &&
-              <Button w={160} onClick={() => set_value(value)}>Set to same</Button>
-            }
-            {allSame && valueEditor(childParams)}
-            {tools && tools(childParams)}
-        </Flex>
-    </Box>
+    const childParams = {value, set_value};
+    return (
+        <Box style={ style }>
+            {label && <Box>{label}</Box>}
+            <Flex>
+                {!allSame &&
+                <Button w={160} onClick={() => set_value(value)}>Set to same</Button>
+                }
+                {allSame && valueEditor(childParams)}
+                {tools && tools(childParams)}
+            </Flex>
+        </Box>
+    );
 }

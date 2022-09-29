@@ -7,7 +7,7 @@ export const samplers = ["DDIM", "PLMS", "k_dpm_2_a", "k_dpm_2", "k_euler_a", "k
 
 export function SamplersPicker({sameAs, sameAsValue, value, set_value}: {sameAs: string, sameAsValue: string[], value: string[], set_value: (newV: string[])=>void}){
 
-    let options = samplers.map(s => ( {
+    const options = samplers.map(s => ( {
         label: s,
         value: s
     }));

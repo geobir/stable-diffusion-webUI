@@ -1,20 +1,19 @@
 import {ValueEditorProps} from "@features/settingsEditor/MultiEditor";
 import {
-    Box,
+    // Box,
     Button, Flex,
     Popover,
     PopoverArrow, PopoverBody,
     PopoverCloseButton,
-    PopoverContent, PopoverHeader,
+    PopoverContent,
+    // PopoverHeader,
     PopoverTrigger,
-    Select, Tag
+    // Select, Tag
 } from "@chakra-ui/react";
 import {Size} from "@features/app/genSettings";
 import {NumberEditor} from "@features/settingsEditor/NumberEditor";
 
-interface Props extends ValueEditorProps<Size> {
-
-}
+type Props = ValueEditorProps<Size>
 
 const presets=[
     {width: 512, height: 512},
@@ -31,8 +30,6 @@ export function SizeEditor({value, set_value}: Props) {
             <PopoverContent>
                 <PopoverArrow />
                 <PopoverCloseButton />
-
-
                 <PopoverBody>
                     Width
                     <NumberEditor value={value.width} set_value={(e)=>set_value({...value, width: e})} step={64} min={64}/>
@@ -42,7 +39,6 @@ export function SizeEditor({value, set_value}: Props) {
                     {presets.map((p,i)=><Button key={i} onClick={()=>set_value(p)}>{p.width}x{p.height}</Button>)}
                     </Flex>
                 </PopoverBody>
-
             </PopoverContent>
         </Popover>
     </div>

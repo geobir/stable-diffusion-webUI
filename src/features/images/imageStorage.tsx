@@ -13,15 +13,15 @@ function resizeDataURL(dataUrl: string, fitSize: number) {
         img.onload = function () {
             // We create a canvas and get its context.
             const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d')!!;
+            const ctx = canvas.getContext('2d')!;
             // debugger
             let scale = img.height/fitSize
             if(img.width>img.height){
                 scale = img.width/fitSize
             }
 
-            let w = Math.floor(img.width/scale)
-            let h = Math.floor(img.height/scale)
+            const w = Math.floor(img.width/scale)
+            const h = Math.floor(img.height/scale)
 
 
             // We set the dimensions at the wanted size.
@@ -46,44 +46,43 @@ export async function storeImageData(id: string, data: string) {
 }
 
 export async function downloadImageData(id: string, url: string) {
-    const img = new Image()
+    const img = new Image();
     img.onload = function () {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d')!!;
+        const ctx = canvas.getContext('2d')!;
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0)
 
         storeImageData(id, canvas.toDataURL())
-    }
-    img.src = url
+    };
+    img.src = url;
 }
 
 
 export async function getImageData(id: string, size: ImageSize) {
-    return await get(id + '_' + size)
+    return await get(id + '_' + size);
 }
 
 export async function getImageElement(id: string, size: ImageSize): Promise<HTMLImageElement | undefined> {
     const data = await getImageData(id, size)
     return new Promise((resolve, reject) => {
         if (!data) {
-            console.log("No image data!")
-            resolve(undefined)
+            console.log("No image data!");
+            resolve(undefined);
         }
         const image = new Image();
         image.onload = function () {
-            resolve(image)
+            resolve(image);
         };
         image.onerror = function (params) {
-            reject("could not load image... ")
+            reject("could not load image... ");
         }
-        image.src = data
-    })
-
+        image.src = data;
+    });
 }
 
-export type ImageSize = 'full' | 'f64' | 'f128' |'f256'
+export type ImageSize = 'full' | 'f64' | 'f128' |'f256';
 
 interface ImageProps {
     id: string,
@@ -118,9 +117,9 @@ export const StoredImage = ({id, size, onClick, style, link}: ImageProps) => {
         (async () => {
             set_imageData(await getImageData(id, size))
         })()
-    }, [id, size])
+    }, [id, size]);
 
-    return <img style={{imageRendering: 'pixelated', ...style}} src={imageData}/>
+    return <img style={{imageRendering: 'pixelated', ...style}} src={imageData}/>;
     // return <div>{image}</div>
 }
 

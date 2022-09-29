@@ -17,8 +17,8 @@ export const toRequest: Record<string, (item: HistoryItem) => Promise<Processing
 
 function setupBackend(key: string, backend: BackendFunction) {
     backends[key] = setupStoredProcessing(backend, getCurrentConfig(key), async () => {
-        let { history, historyItems, images } = useTheStore.getState()
-        let found = history.find(h => {
+        const { history, historyItems, images } = useTheStore.getState()
+        const found = history.find(h => {
             const item = historyItems[h]
             let prevReady = true
             if(isX2Img(item) && item.image){
@@ -26,10 +26,10 @@ function setupBackend(key: string, backend: BackendFunction) {
             }
             return prevReady && !images[h];
         });
-        if(found){
-            const foundItem = historyItems[found]
-            const request = await toRequest[foundItem.type](foundItem)
-            return {id: found, request}
+        if (found){
+            const foundItem = historyItems[found];
+            const request = await toRequest[foundItem.type](foundItem);
+            return {id: found, request};
         }
         return undefined
     })
@@ -38,83 +38,81 @@ function setupBackend(key: string, backend: BackendFunction) {
  setupBackend('automatic1111', sendToAutomatic1111)
  // setupBackend('sd-webui', sendToSdWebui)
 
-export const doProcessing = function () {
-    const { backend, backendConfigs } = useTheStore.getState()
-    const current = backends[backend || '']
+export const doProcessing = () => {
+    const { backend, backendConfigs } = useTheStore.getState();
+    const current = backends[backend || ''];
     if (current) {
-        current()
+        current();
     }
-}
+};
 
-export function stopProgress() {
+export const stopProgress = () => {
     updateTheStore(s => {
         s.history = s.history.filter(h => {
-            let status = s.images[h]?.status;
-            return status==='complete' ||status === 'failed'
-        })
-    })
+            const status = s.images[h]?.status;
+            return status==='complete' ||status === 'failed';
+        });
+    });
 }
 
-export function clearFailed() {
+export const clearFailed = () => {
     updateTheStore(s => {
         s.history = s.history.filter(h => {
-            let status = s.images[h]?.status;
-            return status !== 'failed'
-        })
-    })
+            const status = s.images[h]?.status;
+            return status !== 'failed';
+        });
+    });
 }
 
-function evalRandomness(random: Randomness){
+const evalRandomness = (random: Randomness) => {
     const steps = (random.to - random.from) / random.jump
     return random.from + Math.round(Math.random() *steps) *random.jump
 }
 
 export const enqueueRandom = async () => {
-    let random = useTheStore.getState().genSettings.random;
+    const random = useTheStore.getState().genSettings.random;
 
-    const adjustment: any = {}
+    const adjustment: any = {};
     if (random.cfg.enabled) {
-        adjustment.cfg = Number(evalRandomness(random.cfg).toFixed(2))
+        adjustment.cfg = Number(evalRandomness(random.cfg).toFixed(2));
     }
     if (random.steps.enabled) {
-        adjustment.steps = Math.round(evalRandomness(random.steps))
+        adjustment.steps = Math.round(evalRandomness(random.steps));
     }
     if (random.denoise.enabled) {
-        adjustment.denoise = Number(evalRandomness(random.denoise).toFixed(2))
+        adjustment.denoise = Number(evalRandomness(random.denoise).toFixed(2));
     }
     if (random.samplers.enabled) {
-        const options = random.samplers.options
-        adjustment.sampler = options[Math.floor(Math.random() * options.length)]
+        const options = random.samplers.options;
+        adjustment.sampler = options[Math.floor(Math.random() * options.length)];
     }
-    return await enqueue(true, adjustment)
+    return await enqueue(true, adjustment);
 }
 
 export const enqueue = async (newSeed?: boolean, adjustment?: any) => {
     updateTheStore(s => {
         for (const id of s.nextItems.ordered) {
-            const newId = "" + Math.random()
-            let current = s.nextItems.byId[id];
+            const newId = "" + Math.random();
+            const current = s.nextItems.byId[id];
 
-            let item: HistoryItem = { ...current, ...adjustment }
+            const item: HistoryItem = { ...current, ...adjustment };
 
             if (isX2Img(item)) {
-                if(s.useOutput && !item.isNew){
-                    item.image = id
+                if (s.useOutput && !item.isNew) {
+                    item.image = id;
                 }
 
-                item.seed = (newSeed ? undefined : item.seed) || randomSeed()
-                item.isNew = false
-                if(!item.image){
+                item.seed = (newSeed ? undefined : item.seed) || randomSeed();
+                item.isNew = false;
+                if (!item.image) {
                     item.denoise = (current as X2ImgSettings).denoise
                 }
-
             }
 
-
-            s.historyItems[newId] = item
-            s.history.push(newId)
+            s.historyItems[newId] = item;
+            s.history.push(newId);
         }
 
-    })
-    await doProcessing()
-}
+    });
+    await doProcessing();
+};
