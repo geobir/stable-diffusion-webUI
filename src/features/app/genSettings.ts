@@ -4,12 +4,12 @@ import {toRequest} from "@features/app/doProcessing";
 import {getImageData} from "@features/images/imageStorage";
 
 export interface FullPrompt {
-    alpha: number
+    alpha: number,
     parts: PromptPart[]
 }
 
 export interface PromptPart {
-    text: string
+    text: string,
     weightFunction: string
 }
 
@@ -42,8 +42,8 @@ export function isX2Img(object: any): object is X2ImgSettings {
 
 export const x2imgDefaultSettings: X2ImgSettings = {
     type: 'x2img',
-    prompt: {alpha: 0, parts: [{text: "fantasy landscape", weightFunction: "1-a"}]},
-    size: {width: 512, height: 512},
+    prompt: { alpha: 0, parts: [{ text: "fantasy landscape", weightFunction: "1-a" }] },
+    size: { width: 512, height: 512 },
     cfg: 7.5,
     seed: '',
     sampler: 'k_lms',
@@ -67,7 +67,7 @@ export function prompt2string(prompt: FullPrompt) {
     }).join("\n");
 }
 
-setTimeout(() => {
+setTimeout( () => {
     // settingsFixes['x2img'] = ensureSeed
     toRequest['x2img'] = async (item) => {
         const s = item as X2ImgSettings;
@@ -85,7 +85,7 @@ setTimeout(() => {
                 image: await getImageData(s.image, 'full'),
                 denoise: s.denoise
             }
-            return request
+            return request;
         } else {
             const request: Txt2ImgRequest = {
                 type: 'txt2img',

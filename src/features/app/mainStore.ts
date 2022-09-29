@@ -12,30 +12,30 @@ export type FullState = AppState & ImagesState & AppSettingsState
 export const defaultState : FullState = {
     ...createAppState(),
     ...createImagesState(),
-    ...createAppSettings(),
+    ...createAppSettings()
 };
+
 export const useTheStore = create<FullState>()(
     devtools(
         persist(() => _.cloneDeep(defaultState), {
                 name: 'stored',
                 partialize: state => (state),
-                merge: (s, current)=>{
+                merge: (s, current) => {
                     // debugger
-                    if(s){
-
-                        const s2 = _.merge(current, s) as FullState
+                    if (s) {
+                        const s2 = _.merge(current, s) as FullState;
 
                         for (const id of s2.history) {
                             const status = s2.images[id]?.status;
-                            if(status !='complete' &&  status !='failed'){
-                                delete s2.images[id]
+                            if (status !='complete' &&  status !='failed') {
+                                delete s2.images[id];
                             }
                         }
-                        setTimeout(doProcessing,1)
+                        setTimeout(doProcessing,1);
                         // debugger
-                        return s2
+                        return s2;
                     }
-                    return current
+                    return current;
 
                 },
             }
@@ -44,5 +44,5 @@ export const useTheStore = create<FullState>()(
 )
 
 export function updateTheStore(setter: (s: FullState) => void) {
-    useTheStore.setState(realState => produce(realState, (immerState)=>{setter(immerState)}))
+    useTheStore.setState(realState => produce(realState, (immerState)=>{setter(immerState)}));
 }

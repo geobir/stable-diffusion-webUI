@@ -105,7 +105,7 @@ export const enqueue = async (newSeed?: boolean, adjustment?: any) => {
                 item.seed = (newSeed ? undefined : item.seed) || randomSeed();
                 item.isNew = false;
                 if (!item.image) {
-                    item.denoise = (current as X2ImgSettings).denoise
+                    item.denoise = (current as X2ImgSettings).denoise;
                 }
             }
 
